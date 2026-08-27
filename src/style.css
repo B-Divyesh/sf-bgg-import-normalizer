@@ -221,7 +221,7 @@ footer p { margin: 0; }
   table, thead, tbody, tr, th, td { display: block; }
   thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
   tr { margin-bottom: 16px; padding: 12px; border: 1px solid var(--rule); background: rgba(255,253,246,.7); }
-  td { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--rule); }
+  td { display: grid; grid-template-columns: 70px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--rule); }
   td:last-child { border-bottom: 0; }
   td::before { content: attr(data-label); color: var(--pencil); font-size: .75rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   td > * { grid-column: 2; }

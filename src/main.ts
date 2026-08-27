@@ -103,7 +103,7 @@ function mappingSelect(flag: SourceFlag): string {
   return `<div class="mapping-row ${column ? '' : 'missing-source'}">
     <div><span class="source-name">${esc(column || label(flag))}</span><span class="source-state">${column ? 'BGG flag' : 'Not found in file'}</span></div>
     <span class="map-arrow" aria-hidden="true">⟶</span>
-    <label><span class="sr-only">Map ${esc(column || flag)} to</span><select data-flag="${flag}" ${column ? '' : 'disabled'}>${options.map((status) => `<option value="${status}" ${state.mapping?.flags[flag] === status ? 'selected' : ''}>${status === 'ignore' ? 'Ignore — requires review' : label(status)}</option>`).join('')}</select></label>
+    <label><span class="sr-only">Map ${esc(column || flag)} to</span><select id="map-${flag}" data-flag="${flag}" ${column ? '' : 'disabled'}>${options.map((status) => `<option value="${status}" ${state.mapping?.flags[flag] === status ? 'selected' : ''}>${status === 'ignore' ? 'Ignore — requires review' : label(status)}</option>`).join('')}</select></label>
   </div>`;
 }
 
@@ -209,7 +209,7 @@ function bindEvents(): void {
   drop?.addEventListener('dragleave', () => drop.classList.remove('dragging'));
   drop?.addEventListener('drop', (event) => { event.preventDefault(); drop.classList.remove('dragging'); const file = event.dataTransfer?.files[0]; if (file) void loadFile(file); });
   document.querySelector('#clear-file')?.addEventListener('click', () => { if (!confirm(`Clear “${state.fileName}” from this tab? Your original file is unchanged.`)) return; Object.assign(state, { parsed: null, mapping: null, rows: [], fileName: '', fileSize: 0, error: '', filter: 'all' }); state.overrides.clear(); render('file-input'); announce('The working file was cleared.'); });
-  document.querySelectorAll<HTMLSelectElement>('[data-flag]').forEach((select) => select.addEventListener('change', () => { if (!state.mapping) return; state.mapping.flags[select.dataset.flag as SourceFlag] = select.value as NeutralStatus | 'ignore'; recompute(); announce(`${label(select.dataset.flag ?? '')} now maps to ${label(select.value)}.`); }));
+  document.querySelectorAll<HTMLSelectElement>('[data-flag]').forEach((select) => select.addEventListener('change', () => { if (!state.mapping) return; state.mapping.flags[select.dataset.flag as SourceFlag] = select.value as NeutralStatus | 'ignore'; recompute(select.id); announce(`${label(select.dataset.flag ?? '')} now maps to ${label(select.value)}.`); }));
   const ratingColumn = document.querySelector<HTMLSelectElement>('#rating-column');
   ratingColumn?.addEventListener('change', () => { if (state.mapping) { state.mapping.ratingColumn = ratingColumn.value; recompute('rating-column'); } });
   const ratingScale = document.querySelector<HTMLSelectElement>('#rating-scale');

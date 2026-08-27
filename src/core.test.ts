@@ -50,6 +50,13 @@ describe('normalization', () => {
     expect(rows[1]?.primaryStatus).toBe('want_to_play');
     expect(rows[1]?.statuses).toEqual(['want_to_play', 'previously_owned', 'wishlist']);
   });
+
+  it('recognizes BGG’s generic want flag and reorders an existing override', () => {
+    const parsed = parseCsv('objectid,name,prevowned,want\n3,Three,1,1');
+    const rows = normalizeRows(parsed, defaultMapping(parsed.headers), new Map([[2, 'wishlist']]));
+    expect(rows[0]?.statuses).toEqual(['wishlist', 'previously_owned']);
+    expect(rows[0]?.issues).toHaveLength(0);
+  });
 });
 
 describe('exports', () => {

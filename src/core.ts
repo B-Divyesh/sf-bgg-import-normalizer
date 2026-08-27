@@ -1,4 +1,4 @@
-export const SOURCE_FLAGS = ['own', 'prevowned', 'wishlist', 'wanttoplay', 'wanttobuy', 'fortrade', 'preordered'] as const;
+export const SOURCE_FLAGS = ['own', 'prevowned', 'wishlist', 'want', 'wanttoplay', 'wanttobuy', 'fortrade', 'preordered'] as const;
 export type SourceFlag = typeof SOURCE_FLAGS[number];
 export const STATUSES = ['owned', 'previously_owned', 'wishlist', 'want_to_play', 'want_to_buy', 'for_trade', 'preordered', 'uncategorized'] as const;
 export type NeutralStatus = typeof STATUSES[number];
@@ -35,6 +35,7 @@ const aliases: Record<string, string[]> = {
   own: ['own', 'owned'],
   prevowned: ['prevowned', 'previouslyowned'],
   wishlist: ['wishlist', 'wishlisted'],
+  want: ['want'],
   wanttoplay: ['wanttoplay'],
   wanttobuy: ['wanttobuy'],
   fortrade: ['fortrade', 'trade'],
@@ -86,7 +87,7 @@ export function parseCsv(input: string): ParsedCsv {
 export function defaultMapping(headers: string[]): MappingConfig {
   return {
     flags: {
-      own: 'owned', prevowned: 'previously_owned', wishlist: 'wishlist', wanttoplay: 'want_to_play',
+      own: 'owned', prevowned: 'previously_owned', wishlist: 'wishlist', want: 'wishlist', wanttoplay: 'want_to_play',
       wanttobuy: 'want_to_buy', fortrade: 'for_trade', preordered: 'preordered',
     },
     ratingColumn: findColumn(headers, 'rating'),
@@ -102,7 +103,7 @@ const rowValue = (row: CsvRow, column: string) => column ? (row[column] ?? '').t
 export function normalizeRows(parsed: ParsedCsv, config: MappingConfig, overrides: Map<number, NeutralStatus> = new Map()): NormalizedRow[] {
   const columns = {
     id: findColumn(parsed.headers, 'id'), title: findColumn(parsed.headers, 'title'), year: findColumn(parsed.headers, 'year'),
-    own: findColumn(parsed.headers, 'own'), prevowned: findColumn(parsed.headers, 'prevowned'), wishlist: findColumn(parsed.headers, 'wishlist'),
+    own: findColumn(parsed.headers, 'own'), prevowned: findColumn(parsed.headers, 'prevowned'), wishlist: findColumn(parsed.headers, 'wishlist'), want: findColumn(parsed.headers, 'want'),
     wanttoplay: findColumn(parsed.headers, 'wanttoplay'), wanttobuy: findColumn(parsed.headers, 'wanttobuy'), fortrade: findColumn(parsed.headers, 'fortrade'),
     preordered: findColumn(parsed.headers, 'preordered'),
   };
@@ -132,7 +133,11 @@ export function normalizeRows(parsed: ParsedCsv, config: MappingConfig, override
       else rating = Math.round((number * 10 / scale) * 100) / 100;
     }
     const override = overrides.get(index + 2);
-    if (override && !statuses.includes(override)) statuses.unshift(override);
+    if (override) {
+      const current = statuses.indexOf(override);
+      if (current >= 0) statuses.splice(current, 1);
+      statuses.unshift(override);
+    }
     return {
       sourceRow: index + 2,
       bggId: rowValue(source, columns.id), title, year: rowValue(source, columns.year), statuses,
