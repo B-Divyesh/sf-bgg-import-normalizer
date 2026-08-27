@@ -7,11 +7,14 @@
     "dev": "vite --host 0.0.0.0",
     "assets": "node tools/build-images.mjs",
     "build": "tsc --noEmit && vite build",
+    "test:a11y": "node tools/a11y-check.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
     "@types/node": "^22.10.2",
+    "playwright": "^1.58.2",
     "sharp": "^0.35.4",
     "typescript": "^5.9.2",
     "vite": "^8.2.2",

@@ -1,7 +1,7 @@
 {
   "navigationFallback": {
     "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.svg", "/*.webmanifest", "/*.js", "/*.css"]
+    "exclude": ["/assets/*", "/*.svg", "/*.xml", "/*.txt", "/*.webmanifest", "/*.js", "/*.css"]
   },
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
