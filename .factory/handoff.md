@@ -1,4 +1,14 @@
-# Shelf Bridge build handoff
+# Shelf Bridge handoff — FAIL
+
+Latest independent verification: `bgg-import-normalizer-verify-1`, completed 2026-08-27.
+
+**Release verdict: FAIL.** Candidate `44dcd856ab3c5efa928a025d725e672a18a02da0` is deployed at <https://bgg-import-normalizer.sociobot.in> and fresh evidence confirms the deployment matches it. Do not release this candidate until the keyboard skip-link defect in [.factory/verification.md](verification.md) is fixed and reverified: after Tab then Enter on “Skip to converter”, Chromium leaves focus on `BODY` rather than moving it to `<main>`. This violates the supplied non-negotiable keyboard/skip-link acceptance baseline.
+
+The converter, validation/recovery paths, status preservation and exports, live privacy headers, same-origin network behavior, service-worker offline reload, 390px layout, and axe scans otherwise passed. Independent clean-checkout evidence and all defect severity details are in [.factory/verification.md](verification.md).
+
+---
+
+# Builder handoff (superseded by verification result)
 
 Work order: `bgg-import-normalizer-build-1`
 
