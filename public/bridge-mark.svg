@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">Shelf Bridge mark</title>
+  <path fill="#f4eedc" d="M0 0h64v64H0z"/>
+  <g fill="none" stroke="#245643" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
+    <path d="M8 44h48M14 43c3-19 33-19 36 0M17 34h30M22 29v15M42 29v15"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "slug": "bgg-import-normalizer",
+  "title": "Shelf Bridge",
+  "territory": "games-creative",
+  "user": "Board-game collectors moving a BoardGameGeek collection into a personal tracker who need their ownership, wishlist, and past-ownership states to survive an import predictably.",
+  "smallest_useful_product": "Static web converter that imports a BGG collection export, lets users map statuses/ratings/comments to a target-neutral schema, validates duplicates, and exports CSV/JSON profiles for Yamtrack and NeoDB-style imports.",
+  "success_measure": "At least 80% of ten real BGG exports complete a conversion with zero unreviewed status drops; half of pilot users export to two destinations from the same normalized file.",
+  "artifact_class": "static-web",
+  "monetization": "free",
+  "constraints": "Use only user-supplied exports; respect BGG and target-service terms; do not redistribute game metadata, images, or reviews; process files locally.",
+  "state": "RESEARCHED"
+}

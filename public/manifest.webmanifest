@@ -1,0 +1,10 @@
+{
+  "name": "Shelf Bridge",
+  "short_name": "Shelf Bridge",
+  "description": "Local BGG collection export normalizer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4eedc",
+  "theme_color": "#245643",
+  "icons": [{ "src": "/bridge-mark.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
