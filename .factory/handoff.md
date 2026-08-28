@@ -3,7 +3,7 @@
 Work order: `bgg-import-normalizer-repair-1`
 
 Repair base: `d9dc59cc1cb432ba4500dacf59903aba4440898d`
-Release repair commit: pending final commit and deploy
+Release repair commit: `f13e66673797328770601b778e0813d2da57981d`
 
 ## Release-blocking repair
 
