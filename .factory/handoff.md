@@ -52,6 +52,14 @@ The browser claim test intercepted only same-origin requests during the demo dow
 
 No blocking findings from `review-1.md` remain. The known product limitation is unchanged: Yamtrack and NeoDB import conventions can change, so users should review profile CSVs before importing.
 
-## Deploy
+## Deploy and live verification
 
-Deployment through the static work-order configuration is pending the final commit/push. This section will be updated with the deployed commit and live verification result.
+`/opt/fleet/lib/deploy-static.sh bgg-import-normalizer /work/repo/dist` deployed the repair on 2026-08-28 to `sf-bgg-import-normalizer` in `eastus2`. The product host is serving the repaired `index-BfCE_a7K.js`; its SHA-256 matches the local `dist` artifact:
+
+```text
+28d2727b529ce1e33d266dce33b3a95843370fcf5f67918a73045d0c53ca4d02
+```
+
+Live `https://bgg-import-normalizer.sociobot.in/demo` returned 200 with HSTS, the same-origin CSP, no-referrer policy, nosniff, and denied camera/microphone/geolocation permissions. Live sitemap includes `/`, `/demo`, `/privacy`, and `/terms`.
+
+The production `SHELF_BRIDGE_URL=https://bgg-import-normalizer.sociobot.in npm run test:a11y` pass reported Axe 0 violations across five states and no browser errors. It covered skip focus, direct demo, status guard, JSON download, legal pages, and cached offline reload against the live deployment.
