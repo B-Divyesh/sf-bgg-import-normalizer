@@ -1,3 +1,28 @@
+# Shelf Bridge adversarial first-read review 1 — FAIL
+
+Work order: `bgg-import-normalizer-review-1`
+Completed: 2026-08-28
+
+This reviewer changed no product code. The requested review is in `.factory/review-1.md`.
+
+Result: **FAIL**. The live product is visually distinct and the clean-clone build, unit tests, and existing accessibility smoke test pass. It nevertheless misses three release-blocking factory requirements: a direct, isolated, labeled demo with reset; `.factory/claims.json` plus observable claim tests; and real `/demo`/404 route handling. Route changes also leave focus on `BODY`, legal routes retain the landing title, and canonical/OG/Twitter/Apple metadata is absent.
+
+Verification completed from a fresh local clone:
+
+```sh
+npm ci
+npm test
+npm run build
+npm run preview -- --port 4173
+npm run test:a11y
+```
+
+All five commands completed successfully (`npm test`: 8/8; a11y script: axe 0 violations), but no claim commands could run because the claims registry is missing. Live fresh-context checks covered 390px and desktop first screens, sample behavior, direct demo URLs, storage, same-origin network interception, cached offline reload, links, route focus/back, and metadata.
+
+Next steps: implement the blockers in the review, add their browser tests, then rerun an independent review. Earlier verification notes below are retained as historical evidence and do not override this review verdict.
+
+# Historical verification notes
+
 # Shelf Bridge independent verification 2 — PASS
 
 Work order: `bgg-import-normalizer-verify-2`
