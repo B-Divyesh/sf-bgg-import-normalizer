@@ -1,65 +1,35 @@
-# Shelf Bridge repair handoff — perfection loop 1
+# Shelf Bridge review 2 handoff
 
-Work order: `bgg-import-normalizer-polish-1`  
-Repair commit: `cb8ef28b0a25477a0768987b9c13e50ab40ecb2a`  
-Base review: `2803a4149954a8ab8c3828ef7ef6584134ff812d`  
+Work order: `bgg-import-normalizer-review-2`<br>
+Reviewed commit: `715fe79963e251ec25a9447941bc6e5fcbbef93e`<br>
 Completed: 2026-08-28
 
-## What changed
+## What was done
 
-- Replaced the metaphorical first-screen copy with **Convert a BGG collection CSV**, an audience sentence, and a visible mobile-safe sample action.
-- Added direct `/demo` and `?demo=1` sandbox entry. It immediately loads Catan, Gloomhaven, and Terraforming Mars, uses only `demo:shelf-bridge:sample` session storage, and has persistent Reset demo and Start for real controls.
-- Added `.factory/claims.json`, eight tagged observable Playwright claim tests, `.factory/demo.md`, and `.factory/copy-audit.md`.
-- Added real SPA route rendering for Demo, Privacy, Terms, and a product-styled not-found page. Route changes and history navigation now update title/metadata, focus the page h1, and announce the route.
-- Added canonical, Open Graph, Twitter, favicon/Apple touch metadata, route-specific titles, a 1200×630 original-art social image, `/demo` sitemap entry, and expanded static fallback exclusions.
-- Preserved the handwritten collector-notebook visual system while tightening mobile spacing; the first-screen sample action is within the 390×844 viewport.
-- Updated README, catalog description, service-worker cache, and footer legal/build links. The artifact remains Vite + vanilla TypeScript, static output in `dist/`.
+- Performed a cold first-read review of the live product at 390×844 and 1366×900.
+- Exercised `/demo`, Reset, Start for real, browser storage, request origins, offline reload, real-file-to-demo navigation, and all downloads.
+- Ran every command in `.factory/claims.json` independently from a fresh clone.
+- Rechecked all findings in `.factory/review-1.md` on the live site and in source.
+- Audited landing and README copy, route metadata, history/focus, crawl targets, 404 behavior, visual identity, accessibility, and missed leverage.
+- Wrote the evidence and FAIL verdict to `.factory/review-2.md`. No product code was modified.
 
-## Exact clean-clone evidence
+## Verification
 
-Fresh clone: `/tmp/shelf-bridge-clean` at `cb8ef28`.
-
-```sh
-npm ci --include=dev             # pass; 65 packages, 0 vulnerabilities
-npm test                         # pass; 8/8
-npm run build                    # pass; dist/index.html created
-npm run test:browser             # pass; 11/11 Playwright route/demo/mobile/privacy/offline tests
-npm run preview -- --port 4173
-npm run test:a11y                # pass; Axe 0 violations across 5 states
-npm audit --omit=dev             # pass; 0 vulnerabilities
-```
-
-Every declared claim command also passed independently from that clean clone:
+Fresh clone: `/tmp/shelf-bridge-review2.z1cSU9` at `715fe79`.
 
 ```sh
-npm run test:claims -- --grep @claim:demo-isolation
-npm run test:claims -- --grep @claim:local-processing
-npm run test:claims -- --grep @claim:offline-reload
-npm run test:claims -- --grep @claim:downloads
-npm run test:claims -- --grep @claim:file-size-limit
-npm run test:claims -- --grep @claim:status-review
-npm run test:claims -- --grep @claim:keyboard-operation
-npm run test:claims -- --grep @claim:in-memory-clearing
+npm ci --include=dev
+# all eight npm run test:claims -- --grep @claim:<id> commands
+npm test
+npm run build
+npm run test:browser
+SHELF_BRIDGE_URL=https://bgg-import-normalizer.sociobot.in npm run test:a11y
 ```
 
-All eight passed. Their observable evidence is encoded in `tests/claims.spec.mjs`: direct demo storage/reset/start-real, same-origin interception during download, service-worker offline reload, four output contents, a 20 MB plus one byte rejection, preserved simultaneous statuses, keyboard operation, and real-file clearing/reload.
+All listed claim commands passed. Unit tests passed 8/8, browser tests passed 11/11, the build produced `dist/`, and the live axe suite reported zero violations across five states. Live request logging observed only the Shelf Bridge origin. All crawled intended links returned 200.
 
-Lighthouse on local production `/demo` scored **100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO**. Lab metrics: FCP 0.9 s, LCP 1.4 s, CLS 0. Build output is 28.26 KB JavaScript (10.14 KB gzip) and 15.90 KB CSS (4.46 KB gzip), below the static-product budgets. Accessibility smoke testing exercised skip-link focus, demo screen, populated mobile and desktop states, keyboard mapping focus, export guard, download, legal pages, and offline state with no console errors.
+## Findings left for repair
 
-## Privacy and known limits
+The verdict is FAIL with 17 findings. Blocking issues are: demo navigation discards a loaded real collection; the first demo viewport shows no named sample row or result and the seed has no review problem; and unknown routes return HTTP 200. Four groups of visible demo behavior claims are unlisted. The remaining findings cover the missing first-screen trust facts and exact plain-word/control/link rewrites.
 
-The browser claim test intercepted only same-origin requests during the demo download flow. No remote fonts, analytics, third-party scripts, or collection upload were added. Demo sample state is isolated to the `demo:` session namespace; real working data remains page memory only.
-
-No blocking findings from `review-1.md` remain. The known product limitation is unchanged: Yamtrack and NeoDB import conventions can change, so users should review profile CSVs before importing.
-
-## Deploy and live verification
-
-`/opt/fleet/lib/deploy-static.sh bgg-import-normalizer /work/repo/dist` deployed the repair on 2026-08-28 to `sf-bgg-import-normalizer` in `eastus2`. The product host is serving the repaired `index-BfCE_a7K.js`; its SHA-256 matches the local `dist` artifact:
-
-```text
-28d2727b529ce1e33d266dce33b3a95843370fcf5f67918a73045d0c53ca4d02
-```
-
-Live `https://bgg-import-normalizer.sociobot.in/demo` returned 200 with HSTS, the same-origin CSP, no-referrer policy, nosniff, and denied camera/microphone/geolocation permissions. Live sitemap includes `/`, `/demo`, `/privacy`, and `/terms`.
-
-The production `SHELF_BRIDGE_URL=https://bgg-import-normalizer.sociobot.in npm run test:a11y` pass reported Axe 0 violations across five states and no browser errors. It covered skip focus, direct demo, status guard, JSON download, legal pages, and cached offline reload against the live deployment.
+See `.factory/review-2.md` for exact evidence, rewrites, and required tests. No deployment was performed.
