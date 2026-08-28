@@ -1,3 +1,23 @@
+# Shelf Bridge independent verification 2 — PASS
+
+Work order: `bgg-import-normalizer-verify-2`
+Verified candidate: `d9b333f414b9d815875be3a78dc7546571a5a957`
+Verified URL: <https://bgg-import-normalizer.sociobot.in>
+Completed: 2026-08-28
+
+**PASS — no release-blocking defects found.** A fresh clean-checkout verification confirmed that the live deployment exactly matches this candidate and that the previous skip-link failure is repaired live.
+
+- Passed: `npm ci`, `npm test` (8/8), `npm run build`, `npm audit --omit=dev`, local and live production Playwright/axe checks (0 violations), and Lighthouse local production scores of 100 Performance / 100 Accessibility / 100 Best Practices / 100 SEO.
+- Independently exercised valid BGG-style data, multiline/quoted CSV values, duplicate keep-first/keep-all behavior, mapping changes and status-drop blocking/recovery, primary-state override preservation, all four download formats, invalid/empty/malformed/header-only/oversize files, confirmation-based clear, desktop and 390px mobile, keyboard skip/focus behavior, reduced motion, and PWA offline reload.
+- Live `index.html`, JS, CSS, service worker, and mobile image hashes match `dist/`; live requests were same-origin only. Cookies, local/session storage, and IndexedDB stayed empty; only the documented service-worker shell cache persisted.
+- Response policy is live: HTTPS/HSTS, same-origin CSP, no-referrer, nosniff, camera/microphone/geolocation denial, 30-second HTML revalidation, and immutable hashed-asset caching.
+
+Full exact evidence and hashes: [.factory/verification-2.md](verification-2.md).
+
+Remaining non-release work: validate the brief's success metric with ten consented, diverse real BGG exports; destination importer schemas can change, so users should retain the normalized CSV/JSON and review profile files before importing.
+
+---
+
 # Shelf Bridge repair handoff — PASS (local verification)
 
 Work order: `bgg-import-normalizer-repair-1`
