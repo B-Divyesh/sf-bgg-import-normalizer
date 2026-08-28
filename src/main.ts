@@ -56,7 +56,7 @@ function legalPage(kind: 'privacy' | 'terms'): string {
     <h2>Review before importing</h2><p>Destination import conventions can change. Profile exports are transparent starting points, not a promise that a service will accept every field. Review the downloaded file and keep your source export as a backup.</p>
     <h2>No warranty</h2><p>The software is provided “as is,” without warranty, under the MIT License. We are not liable for lost data, rejected imports, or changes made by a destination service.</p>
     <h2>BoardGameGeek and destination services</h2><p>Shelf Bridge is independent and is not affiliated with or endorsed by BoardGameGeek, Yamtrack, or NeoDB. Names are used only to describe compatible source and profile formats.</p>`;
-  return shell(`<main id="main" class="legal-page"><a class="back-link" href="/" data-route>← Back to converter</a><article>${kind === 'privacy' ? privacy : terms}</article></main>`);
+  return shell(`<main id="main" class="legal-page" tabindex="-1"><a class="back-link" href="/" data-route>← Back to converter</a><article>${kind === 'privacy' ? privacy : terms}</article></main>`);
 }
 
 function stepNav(): string {
@@ -153,7 +153,7 @@ function reviewRow(row: NormalizedRow): string {
 }
 
 function homePage(): string {
-  return shell(`<main id="main"><section class="hero-copy"><p class="eyebrow">A local translation bench for board-game collectors</p><h1>Carry your shelf<br><em>without dropping a state.</em></h1><p class="lede">Turn a BoardGameGeek collection CSV into one clean, reviewable record—then take it to Yamtrack, NeoDB, or your next tracker.</p></section>${stepNav()}<div class="notebook">${state.parsed ? mapBench() : emptyBench()}</div><section class="trust-note"><span aria-hidden="true">✦</span><div><h2>Designed to leave no trace</h2><p>No uploads, accounts, cookies, or game-art copies. Close the tab and your working collection is gone.</p></div></section></main>`);
+  return shell(`<main id="main" tabindex="-1"><section class="hero-copy"><p class="eyebrow">A local translation bench for board-game collectors</p><h1>Carry your shelf<br><em>without dropping a state.</em></h1><p class="lede">Turn a BoardGameGeek collection CSV into one clean, reviewable record—then take it to Yamtrack, NeoDB, or your next tracker.</p></section>${stepNav()}<div class="notebook">${state.parsed ? mapBench() : emptyBench()}</div><section class="trust-note"><span aria-hidden="true">✦</span><div><h2>Designed to leave no trace</h2><p>No uploads, accounts, cookies, or game-art copies. Close the tab and your working collection is gone.</p></div></section></main>`);
 }
 
 function render(focusId?: string): void {
@@ -233,4 +233,16 @@ window.addEventListener('popstate', () => render());
 window.addEventListener('online', () => { const note = document.querySelector<HTMLElement>('#offline-note'); if (note) note.hidden = true; announce('You are back online.'); });
 window.addEventListener('offline', () => { const note = document.querySelector<HTMLElement>('#offline-note'); if (note) note.hidden = false; announce('You are offline. The converter still works.'); });
 render();
+
+// Browsers move the URL to a fragment target but do not consistently move
+// keyboard focus to a non-interactive landmark. The skip link must do both.
+document.querySelector<HTMLAnchorElement>('.skip-link')?.addEventListener('click', (event) => {
+  const main = document.getElementById('main');
+  if (!main) return;
+  event.preventDefault();
+  history.pushState({}, '', '#main');
+  main.focus({ preventScroll: true });
+  main.scrollIntoView({ block: 'start' });
+});
+
 if ('serviceWorker' in navigator && import.meta.env.PROD) window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => undefined));

@@ -1,10 +1,58 @@
-# Shelf Bridge handoff — FAIL
+# Shelf Bridge repair handoff — PASS (local verification)
+
+Work order: `bgg-import-normalizer-repair-1`
+
+Repair base: `d9dc59cc1cb432ba4500dacf59903aba4440898d`
+Release repair commit: pending final commit and deploy
+
+## Release-blocking repair
+
+The independent verifier found one Medium, release-blocking keyboard defect: after `Tab`, then `Enter` on “Skip to converter”, Chromium changed the URL to `#main` but left focus on `BODY`.
+
+The repair makes each rendered `<main id="main">` programmatically focusable with `tabindex="-1"`. The static skip link now prevents the incomplete native fragment action, updates the fragment to `#main`, focuses the current main landmark without a second scroll, and scrolls that landmark into view. This preserves the existing route, visual design, and keyboard flow while giving assistive-technology and keyboard users a deterministic content target.
+
+`tools/a11y-check.mjs` has exact browser regression coverage for the verifier’s reproduction: first `Tab` must reach “Skip to converter”; `Enter` must produce `{ active: "MAIN#main", hash: "#main" }`. Playwright Chromium 1.58.2 is now pinned to match the installed browser revision.
+
+## What was verified locally on 2026-08-28
+
+From a clean dependency install:
+
+```sh
+npm ci
+npm test
+npm run build
+npm audit --omit=dev
+npm run preview -- --port 4173
+npm run test:a11y
+```
+
+- `npm ci`: passed; 65 packages audited, 0 vulnerabilities.
+- `npm test`: passed; 1 file, 8 tests.
+- `npm run build`: passed (`tsc --noEmit` plus Vite); `dist/index.html` is present. This product has no separate lint command; the release build performs the repository’s TypeScript check.
+- `npm audit --omit=dev`: passed; 0 vulnerabilities.
+- Production-browser Playwright + axe check: passed with 0 WCAG 2 A/AA violations across empty, populated, privacy, terms, and offline states; no page errors. It exercised the repaired Tab/Enter skip flow, sample import, status-drop export guard, mapping focus preservation, JSON download, 390px mobile layout, desktop screenshot/layout, and offline reload after service-worker registration.
+- Build output: 25,639 B JS (9,490 B gzip) and 14,616 B CSS (4,268 B gzip), within the static-product 200 KB / 50 KB budgets. `dist/` is 255,105 B including maps and all assets; the largest shipped image is 61,702 B.
+- Static response policy remains in `public/staticwebapp.config.json`: same-origin CSP, no-referrer policy, nosniff, denied camera/microphone/geolocation, navigation fallback, and immutable cache headers for hashed assets. The pre-repair live deployment returned the same policies over HTTPS/HSTS; final live identity and response checks are recorded after deployment.
+
+## Product and privacy scope retained
+
+- The artifact remains a Vite + vanilla TypeScript static web app deployed from `dist/`.
+- No collection data is uploaded, persisted, or tracked; no runtime third-party requests, remote fonts, or analytics were added.
+- Normalization, validation, duplicate recovery, status preservation, exports, legal pages, responsive review cards, and service-worker offline behavior are unchanged.
+
+## Remaining product notes
+
+- Yamtrack and NeoDB profile schemas may change. The normalized CSV/JSON remain the lossless source formats; inspect destination profiles before importing.
+- Offline use starts after one successful online production visit; a first visit cannot work offline.
+- The brief’s real-pilot target still needs ten consented, diverse BGG exports.
+
+---
+
+# Superseded verification result
 
 Latest independent verification: `bgg-import-normalizer-verify-1`, completed 2026-08-27.
 
-**Release verdict: FAIL.** Candidate `44dcd856ab3c5efa928a025d725e672a18a02da0` is deployed at <https://bgg-import-normalizer.sociobot.in> and fresh evidence confirms the deployment matches it. Do not release this candidate until the keyboard skip-link defect in [.factory/verification.md](verification.md) is fixed and reverified: after Tab then Enter on “Skip to converter”, Chromium leaves focus on `BODY` rather than moving it to `<main>`. This violates the supplied non-negotiable keyboard/skip-link acceptance baseline.
-
-The converter, validation/recovery paths, status preservation and exports, live privacy headers, same-origin network behavior, service-worker offline reload, 390px layout, and axe scans otherwise passed. Independent clean-checkout evidence and all defect severity details are in [.factory/verification.md](verification.md).
+Candidate `44dcd856ab3c5efa928a025d725e672a18a02da0` was blocked only by the keyboard skip-link defect documented in [.factory/verification.md](verification.md). The converter, validation/recovery paths, status preservation and exports, live privacy headers, same-origin network behavior, service-worker offline reload, 390px layout, and axe scans otherwise passed.
 
 ---
 

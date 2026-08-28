@@ -17,6 +17,19 @@ async function audit(name) {
 }
 
 await page.goto(baseUrl, { waitUntil: 'networkidle' });
+await page.keyboard.press('Tab');
+if ((await page.locator(':focus').textContent())?.trim() !== 'Skip to converter') {
+  throw new Error('The first Tab did not reach the skip link.');
+}
+await page.keyboard.press('Enter');
+await page.locator('main:focus').waitFor();
+const skipResult = await page.evaluate(() => ({
+  active: `${document.activeElement?.tagName}#${document.activeElement?.id}`,
+  hash: location.hash,
+}));
+if (skipResult.active !== 'MAIN#main' || skipResult.hash !== '#main') {
+  throw new Error(`Skip link did not focus main: ${JSON.stringify(skipResult)}`);
+}
 await audit('empty converter');
 await page.getByRole('button', { name: /3-game sample/i }).click();
 await page.getByRole('heading', { name: 'Review the crossing' }).waitFor();
