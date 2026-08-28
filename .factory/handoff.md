@@ -32,7 +32,16 @@ npm run test:a11y
 - `npm audit --omit=dev`: passed; 0 vulnerabilities.
 - Production-browser Playwright + axe check: passed with 0 WCAG 2 A/AA violations across empty, populated, privacy, terms, and offline states; no page errors. It exercised the repaired Tab/Enter skip flow, sample import, status-drop export guard, mapping focus preservation, JSON download, 390px mobile layout, desktop screenshot/layout, and offline reload after service-worker registration.
 - Build output: 25,639 B JS (9,490 B gzip) and 14,616 B CSS (4,268 B gzip), within the static-product 200 KB / 50 KB budgets. `dist/` is 255,105 B including maps and all assets; the largest shipped image is 61,702 B.
-- Static response policy remains in `public/staticwebapp.config.json`: same-origin CSP, no-referrer policy, nosniff, denied camera/microphone/geolocation, navigation fallback, and immutable cache headers for hashed assets. The pre-repair live deployment returned the same policies over HTTPS/HSTS; final live identity and response checks are recorded after deployment.
+- Static response policy remains in `public/staticwebapp.config.json`: same-origin CSP, no-referrer policy, nosniff, denied camera/microphone/geolocation, navigation fallback, and immutable cache headers for hashed assets. Final live identity and response checks appear below.
+
+## Production deployment and live re-verification
+
+The production `dist/` was deployed with Azure Static Web Apps CLI 2.0.10 to `sf-bgg-import-normalizer` on 2026-08-28. Both the Azure default hostname (`https://blue-dune-071e2d00f.7.azurestaticapps.net`) and the product hostname (`https://bgg-import-normalizer.sociobot.in`) served the repaired `index-C0EMHamh.js` and `index-CvRcjaiu.css`.
+
+- Live JavaScript SHA-256 exactly matched `dist/assets/index-C0EMHamh.js`: `d40df257aacb50a06ebe842b5f64281b0330e99b9c2330a6a521ca6133bb5a4c`.
+- The product hostname returned HTTPS/HSTS, `Cache-Control: public, must-revalidate, max-age=30`, the same-origin CSP, no-referrer, nosniff, and denied camera/microphone/geolocation policies; `/privacy` and `/terms` each returned 200.
+- The full production Playwright + axe check passed again: 0 WCAG 2 A/AA violations in five states, including the exact Tab/Enter skip-link regression, 390px/mobile and desktop browser coverage, keyboard focus retention, download, and offline reload after service-worker registration.
+- After a live sample import, browser resource origins contained only `https://bgg-import-normalizer.sociobot.in`; cookies, localStorage, sessionStorage, and IndexedDB were empty. The only persistence was the documented `shelf-bridge-v3` Cache Storage application shell. The deployed service worker retained its versioned activation, `skipWaiting()`, and `clients.claim()` update behavior.
 
 ## Product and privacy scope retained
 
