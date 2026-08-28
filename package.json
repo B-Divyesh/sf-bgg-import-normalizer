@@ -8,11 +8,14 @@
     "assets": "node tools/build-images.mjs",
     "build": "tsc --noEmit && vite build",
     "test:a11y": "node tools/a11y-check.mjs",
+    "test:browser": "playwright test",
+    "test:claims": "playwright test tests/claims.spec.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "1.58.2",
     "@types/node": "^22.10.2",
     "playwright": "1.58.2",
     "sharp": "^0.35.4",

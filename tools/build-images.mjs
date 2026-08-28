@@ -8,4 +8,6 @@ await Promise.all([
   base().resize(960, 531).webp({ quality: 78 }).toFile('public/assets/notebook-bridge-960.webp'),
   base().resize(960, 531).avif({ quality: 52 }).toFile('public/assets/notebook-bridge-960.avif'),
   base().resize(960, 531).jpeg({ quality: 68, mozjpeg: true }).toFile('public/assets/notebook-bridge-960.jpg'),
+  base().resize(1200, 630, { fit: 'cover', position: 'attention' }).jpeg({ quality: 76, mozjpeg: true }).toFile('public/assets/shelf-bridge-social.jpg'),
+  sharp('public/bridge-mark.svg').resize(180, 180).png().toFile('public/apple-touch-icon.png'),
 ]);

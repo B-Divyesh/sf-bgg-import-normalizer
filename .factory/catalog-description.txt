@@ -1,0 +1,1 @@
+Convert a BGG collection CSV into reviewable files before importing it into another tracker.

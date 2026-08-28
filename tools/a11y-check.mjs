@@ -18,7 +18,7 @@ async function audit(name) {
 
 await page.goto(baseUrl, { waitUntil: 'networkidle' });
 await page.keyboard.press('Tab');
-if ((await page.locator(':focus').textContent())?.trim() !== 'Skip to converter') {
+if ((await page.locator(':focus').textContent())?.trim() !== 'Skip to main content') {
   throw new Error('The first Tab did not reach the skip link.');
 }
 await page.keyboard.press('Enter');
@@ -31,8 +31,8 @@ if (skipResult.active !== 'MAIN#main' || skipResult.hash !== '#main') {
   throw new Error(`Skip link did not focus main: ${JSON.stringify(skipResult)}`);
 }
 await audit('empty converter');
-await page.getByRole('button', { name: /3-game sample/i }).click();
-await page.getByRole('heading', { name: 'Review the crossing' }).waitFor();
+await page.getByRole('link', { name: 'Try it with sample data' }).click();
+await page.getByRole('heading', { name: 'Review your games' }).waitFor();
 await mkdir('.factory/evidence', { recursive: true });
 await page.screenshot({ path: '.factory/evidence/populated-mobile.png', fullPage: true });
 await page.setViewportSize({ width: 1366, height: 900 });
@@ -57,7 +57,7 @@ await page.goto(baseUrl, { waitUntil: 'networkidle' });
 await page.evaluate(() => navigator.serviceWorker.ready);
 await context.setOffline(true);
 await page.reload({ waitUntil: 'domcontentloaded' });
-await page.getByRole('heading', { name: /Carry your shelf/ }).waitFor();
+await page.getByRole('heading', { name: 'Convert a BGG collection CSV' }).waitFor();
 if (!(await page.locator('#offline-note').isVisible())) throw new Error('Offline state was not announced.');
 await audit('offline converter');
 await context.setOffline(false);
