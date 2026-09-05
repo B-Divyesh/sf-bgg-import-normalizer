@@ -40,11 +40,11 @@ await page.screenshot({ path: '.factory/evidence/populated-desktop.png', fullPag
 await page.setViewportSize({ width: 390, height: 844 });
 await audit('populated converter');
 await page.locator('#map-own').selectOption('ignore');
-if (!(await page.getByRole('button', { name: /Normalized JSON/ }).isDisabled())) throw new Error('Status drops did not block export.');
+if (!(await page.getByRole('button', { name: 'Download normalized JSON' }).isDisabled())) throw new Error('Status drops did not block export.');
 if ((await page.locator(':focus').getAttribute('id')) !== 'map-own') throw new Error('Mapping change did not preserve keyboard focus.');
 await page.locator('#map-own').selectOption('owned');
 const download = page.waitForEvent('download');
-await page.getByRole('button', { name: /Normalized JSON/ }).click();
+await page.getByRole('button', { name: 'Download normalized JSON' }).click();
 const downloaded = await download;
 if (!downloaded.suggestedFilename().endsWith('.json')) throw new Error('JSON export did not download.');
 

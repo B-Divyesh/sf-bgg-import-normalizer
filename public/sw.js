@@ -1,4 +1,4 @@
-const CACHE = 'shelf-bridge-v4';
+const CACHE = 'shelf-bridge-v5';
 const SHELL = ['/bridge-mark.svg', '/apple-touch-icon.png', '/manifest.webmanifest', '/assets/notebook-bridge-560.webp', '/assets/notebook-bridge-960.webp', '/assets/notebook-bridge-960.avif', '/assets/notebook-bridge-960.jpg'];
 
 self.addEventListener('install', (event) => {

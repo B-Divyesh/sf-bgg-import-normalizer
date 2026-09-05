@@ -1,10 +1,86 @@
 [
-  {"id":"demo-isolation","claim":"Demo — sample data, nothing is saved.","where":"Demo banner and README","test":"npm run test:claims -- --grep @claim:demo-isolation","sandbox":"fresh /demo context; assert sample rows, demo: session namespace, reset, and Start for real cleanup"},
-  {"id":"local-processing","claim":"Your CSV is processed in this browser. The converter does not upload it.","where":"Landing page, privacy page, and README","test":"npm run test:claims -- --grep @claim:local-processing","sandbox":"fresh /demo context; intercept the entire download flow and assert every request is same-origin"},
-  {"id":"offline-reload","claim":"Shelf Bridge still works after a first visit when you are offline.","where":"Offline notice and README","test":"npm run test:claims -- --grep @claim:offline-reload","sandbox":"fresh /demo context; wait for the service worker, set offline, reload, and assert sample review remains usable"},
-  {"id":"downloads","claim":"Download normalized CSV, JSON, Yamtrack profile CSV, and NeoDB-style profile CSV.","where":"Download section and README","test":"npm run test:claims -- --grep @claim:downloads","sandbox":"fresh demo; download each format and assert its header/schema and three sample records"},
-  {"id":"file-size-limit","claim":"CSV files up to 20 MB.","where":"Import instructions and README","test":"npm run test:claims -- --grep @claim:file-size-limit","sandbox":"fresh landing page; upload a 20 MB plus one byte CSV and assert the visible rejection"},
-  {"id":"status-review","claim":"Multiple active BGG states stay visible for review.","where":"Status rules section and README","test":"npm run test:claims -- --grep @claim:status-review","sandbox":"fresh demo; assert Terraforming Mars keeps Wishlist plus Want To Play in the review row"},
-  {"id":"keyboard-operation","claim":"Use the converter with a keyboard.","where":"README","test":"npm run test:claims -- --grep @claim:keyboard-operation","sandbox":"fresh demo; operate a native status rule with keys, observe the export guard, and activate a download with Enter"},
-  {"id":"in-memory-clearing","claim":"Clearing or reloading removes a real working collection from the page.","where":"Privacy page and README","test":"npm run test:claims -- --grep @claim:in-memory-clearing","sandbox":"fresh landing page; import a supplied CSV, confirm Clear this file, then reload and assert the empty importer"}
+  {
+    "id": "demo-isolation",
+    "claim": "Demo — sample data, nothing is saved. Opening or leaving it never changes a real working collection.",
+    "where": "Demo banner, demo preview, README",
+    "test": "npm run test:claims -- --grep @claim:demo-isolation",
+    "sandbox": "Fresh context loads a real supplied CSV, enters /demo, returns with Use my BGG CSV, and asserts the real row and mapping survive while demo storage is removed."
+  },
+  {
+    "id": "local-processing",
+    "claim": "Your CSV is processed in this browser. The converter does not upload it.",
+    "where": "Landing page, privacy page, README",
+    "test": "npm run test:claims -- --grep @claim:local-processing",
+    "sandbox": "Fresh /demo context records the complete download flow and asserts every request is same-origin."
+  },
+  {
+    "id": "offline-reload",
+    "claim": "Works offline after your first visit.",
+    "where": "Landing facts, offline notice, README",
+    "test": "npm run test:claims -- --grep @claim:offline-reload",
+    "sandbox": "Fresh /demo context waits for the service worker, goes offline, reloads, and asserts the populated sample remains usable."
+  },
+  {
+    "id": "free-to-use",
+    "claim": "Free to use.",
+    "where": "Landing facts",
+    "test": "npm run test:claims -- --grep @claim:free-to-use",
+    "sandbox": "Fresh /demo context completes an export without a payment, sign-in, or authorization step."
+  },
+  {
+    "id": "downloads",
+    "claim": "Download normalized CSV, JSON, Yamtrack CSV, and NeoDB-style CSV. Yamtrack keeps status; NeoDB maps owned and previously owned games to complete; both keep source statuses.",
+    "where": "Download section and README",
+    "test": "npm run test:claims -- --grep @claim:downloads",
+    "sandbox": "Fresh /demo context downloads each file and asserts its records, destination transformation, and source-status fields."
+  },
+  {
+    "id": "file-size-limit",
+    "claim": "CSV files up to 20 MB.",
+    "where": "Import instructions and README",
+    "test": "npm run test:claims -- --grep @claim:file-size-limit",
+    "sandbox": "Fresh landing page uploads a 20 MB plus one byte CSV and asserts the visible rejection."
+  },
+  {
+    "id": "status-mapping",
+    "claim": "Each active BGG status maps to a neutral status.",
+    "where": "Status rules section",
+    "test": "npm run test:claims -- --grep @claim:status-mapping",
+    "sandbox": "Fresh /demo context exports the active owned, previously owned, wishlist, and want-to-play mappings, then proves Ignore blocks export."
+  },
+  {
+    "id": "status-review",
+    "claim": "Multiple active BGG statuses stay visible for review.",
+    "where": "Status rules section and README",
+    "test": "npm run test:claims -- --grep @claim:status-review",
+    "sandbox": "Fresh /demo context asserts Terraforming Mars shows both Wishlist and Want To Play."
+  },
+  {
+    "id": "status-edit-preserves-secondary",
+    "claim": "Change a primary status without removing other BGG statuses.",
+    "where": "Review section",
+    "test": "npm run test:claims -- --grep @claim:status-edit-preserves-secondary",
+    "sandbox": "Fresh /demo context changes Terraforming Mars's primary status, downloads JSON, and asserts the prior statuses remain."
+  },
+  {
+    "id": "duplicate-handling",
+    "claim": "Keep the first duplicate or keep all copies for review.",
+    "where": "Duplicate rules",
+    "test": "npm run test:claims -- --grep @claim:duplicate-handling",
+    "sandbox": "Fresh /demo context exercises both duplicate policies against the shipped Catan duplicate and asserts inclusion and review markers."
+  },
+  {
+    "id": "keyboard-operation",
+    "claim": "Works with a keyboard.",
+    "where": "README",
+    "test": "npm run test:claims -- --grep @claim:keyboard-operation",
+    "sandbox": "Fresh /demo context changes a native status rule with keys, observes the export guard, and activates a download with Enter."
+  },
+  {
+    "id": "in-memory-clearing",
+    "claim": "Clearing or reloading removes a real working collection from the page.",
+    "where": "Privacy page and README",
+    "test": "npm run test:claims -- --grep @claim:in-memory-clearing",
+    "sandbox": "Fresh landing page imports a supplied CSV, confirms Clear this file, then reloads and asserts the empty importer."
+  }
 ]

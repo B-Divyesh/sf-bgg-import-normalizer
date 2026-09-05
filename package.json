@@ -10,6 +10,7 @@
     "test:a11y": "node tools/a11y-check.mjs",
     "test:browser": "playwright test",
     "test:claims": "playwright test tests/claims.spec.mjs",
+    "test:live": "playwright test tests/live.spec.mjs",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run"
   },

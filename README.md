@@ -4,19 +4,23 @@ Convert a BGG collection CSV into reviewable files before importing it into anot
 
 Shelf Bridge is for board-game collectors changing trackers. It lets you review BGG statuses before downloading files.
 
-Try it now: <https://bgg-import-normalizer.sociobot.in/demo>
+Open the three-game sample: <https://bgg-import-normalizer.sociobot.in/demo>
 
 ## What it does
 
-- Keeps multiple active BGG states visible for review. (`status-review`)
-- Downloads normalized CSV, JSON, Yamtrack profile CSV, and NeoDB-style profile CSV. (`downloads`)
+- Maps each active BGG status to a neutral status. (`status-mapping`)
+- Keeps multiple active BGG statuses visible for review. (`status-review`)
+- Lets you change a primary status without removing other BGG statuses. (`status-edit-preserves-secondary`)
+- Keeps the first duplicate or keeps all copies for review. (`duplicate-handling`)
+- Downloads normalized CSV, JSON, Yamtrack CSV, and NeoDB-style CSV. (`downloads`)
 - Accepts CSV files up to 20 MB. (`file-size-limit`)
 - Processes your CSV in this browser and does not upload it. (`local-processing`)
 - Works offline after a first visit. (`offline-reload`)
-- Uses native controls that work with a keyboard. (`keyboard-operation`)
+- Is free to use. (`free-to-use`)
+- Works with a keyboard. (`keyboard-operation`)
 - Clears a real working collection when you clear or reload the page. (`in-memory-clearing`)
 
-The demo loads Catan, Gloomhaven, and Terraforming Mars. It uses separate `demo:` browser-session storage and clears when you choose **Start for real**. (`demo-isolation`)
+The demo loads four rows for Catan, Gloomhaven, and Terraforming Mars. The demo keeps its sample separate and removes it when you choose **Use my BGG CSV**. (`demo-isolation`)
 
 See [privacy](/privacy) and [terms](/terms) in the running app. Shelf Bridge is independent and not endorsed by BoardGameGeek, Yamtrack, or NeoDB.
 
@@ -35,6 +39,12 @@ npm run dev
 npm test
 npm run build
 npm run test:browser
+```
+
+After deployment, check the intentional 404 response:
+
+```sh
+SHELF_BRIDGE_URL=https://bgg-import-normalizer.sociobot.in npm run test:live
 ```
 
 Run every declared claim from a clean build:

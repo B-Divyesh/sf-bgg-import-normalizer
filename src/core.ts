@@ -192,5 +192,5 @@ export function createExport(rows: NormalizedRow[], profile: 'neutral-csv' | 'ne
 }
 
 export function makeSampleCsv(): string {
-  return 'objectid,name,yearpublished,own,prevowned,wishlist,wanttoplay,wanttobuy,fortrade,preordered,rating,comment\r\n13,Catan,1995,1,0,0,0,0,0,0,7.5,"Family copy, 5–6 player expansion"\r\n174430,Gloomhaven,2017,0,1,0,0,0,0,0,9,"Campaign complete"\r\n167791,Terraforming Mars,2016,0,0,1,1,0,0,0,8,"Try before buying"\r\n';
+  return 'objectid,name,yearpublished,own,prevowned,wishlist,wanttoplay,wanttobuy,fortrade,preordered,rating,comment\r\n13,Catan,1995,1,0,0,0,0,0,0,7.5,"Family copy, 5–6 player expansion"\r\n13,Catan,1995,1,0,0,0,0,0,0,7.5,"Second copy to review"\r\n174430,Gloomhaven,2017,0,1,0,0,0,0,0,9,"Campaign complete"\r\n167791,Terraforming Mars,2016,0,0,1,1,0,0,0,8,"Try before buying"\r\n';
 }

@@ -1,7 +1,8 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/assets/*", "/*.svg", "/*.png", "/*.jpg", "/*.xml", "/*.txt", "/*.webmanifest", "/*.js", "/*.css"]
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/404.html"
+    }
   },
   "globalHeaders": {
     "Content-Security-Policy": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'",
@@ -10,6 +11,9 @@
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
   },
   "routes": [
+    { "route": "/demo", "rewrite": "/index.html" },
+    { "route": "/privacy", "rewrite": "/index.html" },
+    { "route": "/terms", "rewrite": "/index.html" },
     { "route": "/assets/*", "headers": { "Cache-Control": "public, max-age=31536000, immutable" } },
     { "route": "/*.js", "headers": { "Cache-Control": "public, max-age=31536000, immutable" } },
     { "route": "/*.css", "headers": { "Cache-Control": "public, max-age=31536000, immutable" } }
