@@ -1,4 +1,16 @@
-# Shelf Bridge repair handoff
+# Shelf Bridge handoff
+
+## Review 3 update — PASS
+
+Work order `bgg-import-normalizer-review-3` completed on 2026-09-05 with **zero findings and zero untested public claims**. No product code changed.
+
+- Reviewed implementation: `b976f172ab8a78c0e408d16656b43638fc327bf4` (`b976f17`).
+- Reviewed documentation baseline: `d9dd5f5a9c9f9a33e3fe2b176875bad125bee109` (`d9dd5f5`); its only later changes were documentation.
+- Fresh 390px phone and desktop live contexts showed the job, audience, and sample action before scrolling. The populated demo showed its persistent label, realistic sample status/output, duplicate marker, reset, and real-data-safe exit.
+- From a clean checkout, all 12 declared claim commands, `npm test`, build, local browser tests, and local accessibility checks passed. Live `test:live`, browser (19/19), and accessibility checks passed; axe reported 0 violations.
+- The fresh candidate build hash-matched the live HTML, 404 page, JavaScript, and CSS. Internal routes and the labelled external source link worked. The unknown route is intentionally styled and returns HTTP 404.
+
+The full report is `.factory/review-3.md`. The evidence copy is `/work/.evidence/qa-report.md`; `/work/.evidence/qa-result.json` records the matching PASS verdict.
 
 ## Verification 3 update — PASS
 
