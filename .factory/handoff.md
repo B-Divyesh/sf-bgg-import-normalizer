@@ -3,7 +3,7 @@
 Work order: bgg-import-normalizer-repair-2
 Completed: 2026-09-05
 Implementation SHA: `b976f172ab8a78c0e408d16656b43638fc327bf4`
-Verification documentation SHA: recorded in the follow-up documentation commit.
+Verification documentation SHA: `0ebf1a5f94ff2000c0e2963cd86cfa9ac6dfd617`.
 
 ## Product and release
 
