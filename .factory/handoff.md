@@ -1,5 +1,16 @@
 # Shelf Bridge repair handoff
 
+## Verification 3 update — PASS
+
+Verified on 2026-09-05 with **zero findings and zero untested claims**. The implementation reviewed was `b976f172ab8a78c0e408d16656b43638fc327bf4`; the documentation baseline was `2509f0f3c2d79f0bfecea0254585559a688a23fb`.
+
+- A fresh detached checkout at the implementation SHA passed `npm ci --include=dev`, all 12 independently run claim commands, `npm test` (8 tests), `npm run build`, `npm run test:browser` (18 local tests), and `npm run test:a11y`.
+- The live product passed `npm run test:live` (true styled HTTP 404), `npm run test:browser` (19/19), and `npm run test:a11y` (axe 0 violations across five states).
+- Fresh desktop and 390px-phone checks showed the job, audience, and **Try it with sample data** action before scrolling. The populated demo showed its persistent sample label, named status/output cards, and duplicate marker. Resetting demo and leaving it preserved an imported real row and removed demo storage.
+- Live `index.html`, `404.html`, and hashed JavaScript/CSS exactly matched a fresh candidate build. All content links were reachable; security headers, legal pages, offline reload, keyboard paths, reduced motion, route focus, privacy request logging, invalid/boundary/recovery paths, and metadata passed.
+
+The full independent evidence is in `.factory/verification-3.md`. The only remaining work is consented testing with real BGG exports, already noted below as product validation rather than a release defect.
+
 Work order: bgg-import-normalizer-repair-2
 Completed: 2026-09-05
 Implementation SHA: `b976f172ab8a78c0e408d16656b43638fc327bf4`
