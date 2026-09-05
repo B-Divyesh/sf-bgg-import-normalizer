@@ -41,7 +41,7 @@ function currentRoute(): Route {
   return 'not-found';
 }
 
-const canonicalPath = (route: Route) => route === 'demo' ? '/demo' : route === 'home' ? '/' : route === 'not-found' ? location.pathname : `/${route}`;
+const canonicalPath = (route: Route) => route === 'demo' ? '/demo' : route === 'home' || route === 'not-found' ? '/' : `/${route}`;
 
 function routeMeta(route: Route): { title: string; description: string } {
   if (route === 'demo') return { title: 'Demo — Shelf Bridge', description: 'Review a sample BoardGameGeek collection before exporting it.' };

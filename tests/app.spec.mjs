@@ -6,7 +6,7 @@ test('routes set titles, canonical metadata, and an intentional not-found page',
     ['/demo', 'Demo — Shelf Bridge', 'Review a sample BGG collection', '/demo'],
     ['/privacy', 'Privacy — Shelf Bridge', 'Privacy for Shelf Bridge', '/privacy'],
     ['/terms', 'Terms — Shelf Bridge', 'Terms for Shelf Bridge', '/terms'],
-    ['/missing-route', 'Page not found — Shelf Bridge', 'Page not found', '/missing-route'],
+    ['/missing-route', 'Page not found — Shelf Bridge', 'Page not found', '/'],
   ];
   for (const [path, title, heading, canonical] of routes) {
     await page.goto(path);
